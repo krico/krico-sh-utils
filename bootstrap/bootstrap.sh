@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# set env variable KRICO_SH_UTILS_DEBUG=1 to enable debugging messages to stderr
-KRICO_SH_UTILS_DEBUG="${KRICO_SH_UTILS_DEBUG:-1}"
+# set env variable KRICO_DEBUG=1 to enable debugging messages to stderr
+KRICO_DEBUG="${KRICO_DEBUG:-0}"
 # Path to directory where krico-sh-config keeps its configurations
-KRICO_SH_UTILS_CONFIG_DIR="${HOME}/.krico-sh-utils"
+KRICO_CONFIG_DIR="${HOME}/.krico-sh-utils"
 
 function krico_debug() {
-  if [[ "${KRICO_SH_UTILS_DEBUG}" != "1" ]]; then return; fi
+  if [[ "${KRICO_DEBUG}" != "1" ]]; then return; fi
   echo -n "DEBUG: " >&2
   echo "$@" >&2
 }
@@ -20,7 +20,7 @@ function krico_get_env() {
   local env_var_name="${1}"
   local default_value="${2}"
   if [[ -z "${env_var_name}" ]]; then krico_fatal "Usage: krico_get_env <ENV-VAR-NAME>"; fi
-  local env_file="${KRICO_SH_UTILS_CONFIG_DIR}/env/${1}"
+  local env_file="${KRICO_CONFIG_DIR}/env/${1}"
   if [[ -e "${env_file}" && -r "${env_file}" ]]; then
     head -1 "${env_file}"
   else
@@ -36,14 +36,14 @@ _already_installed=0
 _prefix_confirmed=1
 _git_exe_confirmed=1
 
-if [[ -e "${KRICO_SH_UTILS_CONFIG_DIR}" ]]; then
-  krico_debug "found: KRICO_SH_UTILS_CONFIG_DIR='${KRICO_SH_UTILS_CONFIG_DIR}'"
-  if [[ ! -d "${KRICO_SH_UTILS_CONFIG_DIR}" || ! -w "${KRICO_SH_UTILS_CONFIG_DIR}" ]]; then
-    krico_fatal "KRICO_SH_UTILS_CONFIG_DIR='${KRICO_SH_UTILS_CONFIG_DIR}' must be a directory with write permissions"
+if [[ -e "${KRICO_CONFIG_DIR}" ]]; then
+  krico_debug "found: KRICO_CONFIG_DIR='${KRICO_CONFIG_DIR}'"
+  if [[ ! -d "${KRICO_CONFIG_DIR}" || ! -w "${KRICO_CONFIG_DIR}" ]]; then
+    krico_fatal "KRICO_CONFIG_DIR='${KRICO_CONFIG_DIR}' must be a directory with write permissions"
   fi
   _already_installed=1
 else
-  krico_debug "missing: KRICO_SH_UTILS_CONFIG_DIR='${KRICO_SH_UTILS_CONFIG_DIR}'"
+  krico_debug "missing: KRICO_CONFIG_DIR='${KRICO_CONFIG_DIR}'"
   _already_installed=0
 fi
 
@@ -101,7 +101,7 @@ while [[ 1 ]]; do
   echo
   echo "+++ Configuration +++"
   echo "PREFIX       : ${_prefix}"
-  echo "CONFIG       : ${KRICO_SH_UTILS_CONFIG_DIR}"
+  echo "CONFIG       : ${KRICO_CONFIG_DIR}"
   echo "GIT          : ${_git_exe}"
   echo
   echo "This script will use GIT to install things in PREFIX and will store configurations in CONFIG"
@@ -142,18 +142,18 @@ if [[ -z "${_git_exe}" || ! -x "${_git_exe}" ]]; then
   krico_fatal "Invalid git executable (git_exe='${_git_exe}')"
 fi
 
-if [[ ! -d "${KRICO_SH_UTILS_CONFIG_DIR}/env" ]]; then
-  echo -n "Creating directory '${KRICO_SH_UTILS_CONFIG_DIR}/env' .."
-  if ! mkdir -p "${KRICO_SH_UTILS_CONFIG_DIR}/env"; then
+if [[ ! -d "${KRICO_CONFIG_DIR}/env" ]]; then
+  echo -n "Creating directory '${KRICO_CONFIG_DIR}/env' .."
+  if ! mkdir -p "${KRICO_CONFIG_DIR}/env"; then
     echo ". failed"
-    krico_fatal "Could not create CONFIG directory '${KRICO_SH_UTILS_CONFIG_DIR}/env'"
+    krico_fatal "Could not create CONFIG directory '${KRICO_CONFIG_DIR}/env'"
   fi
   echo ". ok"
 fi
 
 if [[ ${_prefix_confirmed} != 1 ]]; then
   echo -n "Saving PREFIX configuration .."
-  if ! echo "${_prefix}" >"${KRICO_SH_UTILS_CONFIG_DIR}/env/PREFIX"; then
+  if ! echo "${_prefix}" >"${KRICO_CONFIG_DIR}/env/PREFIX"; then
     echo ". failed"
     krico_fatal "Could not save PREFIX configuration"
   fi
@@ -162,7 +162,7 @@ fi
 
 if [[ ${_git_exe_confirmed} != 1 ]]; then
   echo -n "Saving GIT configuration .."
-  if ! echo "${_git_exe}" >"${KRICO_SH_UTILS_CONFIG_DIR}/env/GIT_EXE"; then
+  if ! echo "${_git_exe}" >"${KRICO_CONFIG_DIR}/env/GIT_EXE"; then
     echo ". failed"
     krico_fatal "Could not save GIT configuration"
   fi
@@ -177,12 +177,12 @@ if [[ ! -d "${_prefix}" ]]; then
   fi
   echo ". ok"
 fi
-_krico_sh_utils_url="git@github.com:krico/krico-sh-utils.git" # TODO: this should be configurable
+_KRICO_url="git@github.com:krico/krico-sh-utils.git" # TODO: this should be configurable
 echo "Bootstrapping directory '${_prefix}'"
 if [[ ! -d "${_prefix}/krico-sh-utils" ]]; then
-  echo "Cloning '${_krico_sh_utils_url}' into '${_prefix}/krico-sh-utils'"
+  echo "Cloning '${_KRICO_url}' into '${_prefix}/krico-sh-utils'"
   if ! cd "${_prefix}"; then krico_fatal "Failed to cd into '${_prefix}'"; fi
-  if ! "${_git_exe}" clone "${_krico_sh_utils_url}"; then krico_fatal "Failed to clone '${_krico_sh_utils_url}'"; fi
+  if ! "${_git_exe}" clone "${_KRICO_url}"; then krico_fatal "Failed to clone '${_KRICO_url}'"; fi
 else
   echo "Updating '${_prefix}/krico-sh-utils'"
   if ! cd "${_prefix}/krico-sh-utils"; then krico_fatal "Failed to cd into '${_prefix}/krico-sh-utils'"; fi
