@@ -29,6 +29,51 @@ teardown() {
   assert_equal "ERROR" "$(krico_log_level_name $KRICO_LEVEL_ERROR)"
 }
 
+@test "krico_log_enabled" {
+  KRICO_LOGLEVEL=$KRICO_LEVEL_ERROR
+  let KRICO_LOGLEVEL+=1
+  refute krico_error_enabled
+  refute krico_warn_enabled
+  refute krico_info_enabled
+  refute krico_debug_enabled
+  refute krico_trace_enabled
+
+  KRICO_LOGLEVEL=$KRICO_LEVEL_ERROR
+  assert krico_error_enabled
+  refute krico_warn_enabled
+  refute krico_info_enabled
+  refute krico_debug_enabled
+  refute krico_trace_enabled
+
+  KRICO_LOGLEVEL=$KRICO_LEVEL_WARN
+  assert krico_error_enabled
+  assert krico_warn_enabled
+  refute krico_info_enabled
+  refute krico_debug_enabled
+  refute krico_trace_enabled
+
+  KRICO_LOGLEVEL=$KRICO_LEVEL_INFO
+  assert krico_error_enabled
+  assert krico_warn_enabled
+  assert krico_info_enabled
+  refute krico_debug_enabled
+  refute krico_trace_enabled
+
+  KRICO_LOGLEVEL=$KRICO_LEVEL_DEBUG
+  assert krico_error_enabled
+  assert krico_warn_enabled
+  assert krico_info_enabled
+  assert krico_debug_enabled
+  refute krico_trace_enabled
+
+  KRICO_LOGLEVEL=$KRICO_LEVEL_TRACE
+  assert krico_error_enabled
+  assert krico_warn_enabled
+  assert krico_info_enabled
+  assert krico_debug_enabled
+  assert krico_trace_enabled
+}
+
 @test "krico_error" {
   KRICO_LOGLEVEL=$KRICO_LEVEL_ERROR
 

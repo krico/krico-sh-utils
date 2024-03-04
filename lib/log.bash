@@ -31,6 +31,15 @@ function krico_log_level_name() {
   echo "${names[${level}]}"
 }
 
+function krico_log_enabled() {
+  local level=$1
+  if [[ ${level} -lt ${KRICO_LOGLEVEL:-30} ]]; then
+    return 1;
+  else
+    return 0;
+  fi
+}
+
 function krico_log() {
   local level=$1
   # If level is unset it becomes 30/WARN
@@ -41,24 +50,30 @@ function krico_log() {
   printf "[%s] %-5s - %s\n" "$(date +'%Y-%m-%d %H:%M:%S')" "$(krico_log_level_name $level)" "$@" >&2
 }
 
+function krico_trace_enabled() { krico_log_enabled $KRICO_LEVEL_TRACE; }
+function krico_debug_enabled() { krico_log_enabled $KRICO_LEVEL_DEBUG; }
+function krico_info_enabled() { krico_log_enabled $KRICO_LEVEL_INFO; }
+function krico_warn_enabled() { krico_log_enabled $KRICO_LEVEL_WARN; }
+function krico_error_enabled() { krico_log_enabled $KRICO_LEVEL_ERROR; }
+
 function krico_trace() {
-  krico_log 0 "$@"
+  krico_log $KRICO_LEVEL_TRACE "$@"
 }
 
 function krico_debug() {
-  krico_log 10 "$@"
+  krico_log $KRICO_LEVEL_DEBUG "$@"
 }
 
 function krico_info() {
-  krico_log 20 "$@"
+  krico_log $KRICO_LEVEL_INFO "$@"
 }
 
 function krico_warn() {
-  krico_log 30 "$@"
+  krico_log $KRICO_LEVEL_WARN "$@"
 }
 
 function krico_error() {
-  krico_log 40 "$@"
+  krico_log $KRICO_LEVEL_ERROR "$@"
 }
 
 function krico_exit() {
