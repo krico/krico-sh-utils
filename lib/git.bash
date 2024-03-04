@@ -38,15 +38,19 @@ function git_config_global() {
   fi
 
   krico_debug "${FUNCNAME[0]}: applying '$user_config'"
-  local tmp=$(mktemp -t "$(basename "$0").XXXXX")
+  local tmp=$(mktemp -t "${FUNCNAME[0]}")
+  local fd=$(krico_find_fd)
+
   git config -f "$user_config" -l -z >"${tmp}"
-  exec 3<"${tmp}" #open fd
-  while IFS=$'\n' read -u 3 -d $'\0' key value; do
+
+  eval "exec ${fd}<'${tmp}'" #open fd
+
+  while IFS=$'\n' read -u ${fd} -d $'\0' key value; do
     krico_trace "${FUNCNAME[0]}: git config --global '$key' '$value'"
     git config --global "$key" "$value"
   done
 
-  exec 3>&- # close fd
+  eval "exec ${fd}>&-" # close fd
   rm -f "${tmp}"
   krico_info "${FUNCNAME[0]}: success."
   return 0

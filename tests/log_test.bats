@@ -22,11 +22,11 @@ teardown() {
 }
 
 @test "krico_log_level_name" {
-  assert_equal "TRACE" "$(krico_log_level_name $KRICO_LEVEL_TRACE)"
-  assert_equal "DEBUG" "$(krico_log_level_name $KRICO_LEVEL_DEBUG)"
-  assert_equal "INFO" "$(krico_log_level_name $KRICO_LEVEL_INFO)"
-  assert_equal "WARN" "$(krico_log_level_name $KRICO_LEVEL_WARN)"
-  assert_equal "ERROR" "$(krico_log_level_name $KRICO_LEVEL_ERROR)"
+  assert_equal "$(krico_log_level_name $KRICO_LEVEL_TRACE)" "TRACE"
+  assert_equal "$(krico_log_level_name $KRICO_LEVEL_DEBUG)" "DEBUG"
+  assert_equal "$(krico_log_level_name $KRICO_LEVEL_INFO)" "INFO"
+  assert_equal "$(krico_log_level_name $KRICO_LEVEL_WARN)" "WARN"
+  assert_equal "$(krico_log_level_name $KRICO_LEVEL_ERROR)" "ERROR"
 }
 
 @test "krico_log_enabled" {

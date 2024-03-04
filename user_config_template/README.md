@@ -13,7 +13,7 @@ for latest version.
 
 Here a list of user specific configurations
 
-### gitconfig
+### gitconfig/
 
 Contains "gitconfig" files like the ones used by git.
 
@@ -24,3 +24,9 @@ It only adds (or overwrites) config values, doesn't delete existing ones.
 - `gitconfig/repo.${repo_name}` (if present) is applied to repository named `${repo_name}`
 - `gitconfig/repo` is applied to a repository if `repo.${repo_name}` doesn't exit
 
+### vcs/
+
+Configurations related to version control systems in general
+
+- `vcs/server_aliases` list of server aliases, format `<alias-name>,<server-name>`.  Example `Github,github.com`.
+will cause a repository `https://github.com/nodejs/node` to be checked out into `Github/nodejs/node`

@@ -16,6 +16,9 @@
 # | krico_declare_write x
 # | # later you can read it
 # | eval "$(krico_declare_read x)"
+# |
+# | # Find the next available file descriptor
+# | local my_fd=$(krico_find_fd)
 # +====================================================================================================
 
 function krico_env_get() {
@@ -51,4 +54,14 @@ function krico_declare_read() {
 function krico_declare_write() {
   local name="$1"
   declare -p "${name}" >"${KRICO_CONFIG}/env/${name}.declare"
+}
+
+# Find the next available file descriptor to use
+function krico_find_fd() {
+  local fd=2
+  local max=$(ulimit -n)
+  while ((++fd < max)); do
+    ! <&$fd && break
+  done 2>/dev/null
+  echo $fd
 }
