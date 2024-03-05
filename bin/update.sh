@@ -4,8 +4,8 @@
 # |
 # | Idempotent installation of your krico-sh-utils development environment
 # +====================================================================================================
-if ! source "$(dirname "$0")/../lib/init.bash"; then
-  echo "Failed to initialize the environment: $!" >&2
+if ! source "$(dirname "$0")/../lib/update/init_update.bash"; then
+  echo "Failed to initialize the environment for update: $!" >&2
   exit 1
 fi
 
