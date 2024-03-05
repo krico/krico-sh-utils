@@ -1,0 +1,5 @@
+#!/bin/bash
+# This file is source as part of the initialization of your interactive shell
+if [ -n "$PS1" ]; then
+  PS1='[\u@\h:\W]\$ '
+fi

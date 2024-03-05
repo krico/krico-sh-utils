@@ -13,6 +13,10 @@ for latest version.
 
 Here a list of user specific configurations
 
+### [initrc](./initrc)
+
+File source as part of the initialization of your interactive shell
+
 ### [gitconfig/](./gitconfig)
 
 Contains "gitconfig" files like the ones used by git.

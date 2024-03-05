@@ -29,13 +29,9 @@ import "log" || return 1
 import "git" || return 1
 import "path" || return 1
 
-krico_trace "krico-sh-utils initialized
-KRICO_CONFIG      : '${KRICO_CONFIG}'
-KRICO_PREFIX      : '${KRICO_PREFIX}'
-KRICO_SH_UTILS    : '${KRICO_SH_UTILS}'
-KRICO_LIB         : '${KRICO_LIB}'
-KRICO_USER_CONFIG : '${KRICO_USER_CONFIG}'
-KRICO_USER_LIB    : '${KRICO_USER_LIB}'"
+if [[ -r "${KRICO_USER_CONFIG}/initrc" ]]; then
+  source "${KRICO_USER_CONFIG}/initrc"
+fi
 
 # Define a function to reload the environment
 function krico_reload() {
