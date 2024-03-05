@@ -1,0 +1,25 @@
+#!/bin/bash
+# +====================================================================================================
+# | krico-sh-utils: bootstrap/initrc
+# |
+# | Environment initialization script used to configure your interactive shell
+# |
+# | This file is installed to ~/.krico-sh-utils/initrc and can be added to your shell
+# | environment (eg: ~/.bashrc or ~/.bash_profile) like this:
+# |
+# | if [[ -r ~/.krico-sh-utils/initrc ]]; then source ~/.krico-sh-utils/initrc; fi
+# |
+# +====================================================================================================
+
+if [[ ! -r ~/.krico-sh-utils/env/PREFIX ]]; then
+  echo "krico-sh-utils/initrc: PREFIX is not configured '~/.krico-sh-utils/env/PREFIX'" >&2
+  return 1
+fi
+
+export KRICO_PREFIX="$(head -1 ~/.krico-sh-utils/env/PREFIX)"
+if [[ -z "${KRICO_PREFIX}" || ! -d "${KRICO_PREFIX}/krico-sh-utils" || ! -r "${KRICO_PREFIX}/krico-sh-utils/initrc" ]]; then
+  echo "krico-sh-utils/initrc: '${KRICO_PREFIX}/krico-sh-utils/initrc' not found" >&2
+  return 1
+fi
+
+source "${KRICO_PREFIX}/krico-sh-utils/initrc"

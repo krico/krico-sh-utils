@@ -1,0 +1,48 @@
+#!/bin/bash
+# +====================================================================================================
+# | krico-sh-utils: initrc
+# |
+# | Environment initialization script used to configure your interactive shell.
+# | Loads basic modules
+# |  - import
+# |  - env
+# |  - log
+# |
+# | This file is sourced by ~/.krico-sh-utils/initrc
+# |
+# +====================================================================================================
+
+export KRICO_CONFIG="${HOME}/.krico-sh-utils"
+export KRICO_PREFIX="$(head -1 "${KRICO_CONFIG}/env/PREFIX")"
+export KRICO_SH_UTILS="${KRICO_PREFIX}/krico-sh-utils"
+export KRICO_LIB="${KRICO_SH_UTILS}/lib"
+export KRICO_USER_CONFIG="$(head -1 "${KRICO_CONFIG}/env/USER_CONFIG")"
+export KRICO_USER_LIB="${KRICO_USER_CONFIG}/lib"
+
+if ! source "${KRICO_LIB}/import.bash"; then
+  echo "ERROR: init_update.bash: Failed to load '${KRICO_LIB}/import.bash'" >&2
+  return 1
+fi
+
+import "env" || return 1
+import "log" || return 1
+import "git" || return 1
+import "path" || return 1
+
+krico_trace "krico-sh-utils initialized
+KRICO_CONFIG      : '${KRICO_CONFIG}'
+KRICO_PREFIX      : '${KRICO_PREFIX}'
+KRICO_SH_UTILS    : '${KRICO_SH_UTILS}'
+KRICO_LIB         : '${KRICO_LIB}'
+KRICO_USER_CONFIG : '${KRICO_USER_CONFIG}'
+KRICO_USER_LIB    : '${KRICO_USER_LIB}'"
+
+# Define a function to reload the environment
+function krico_reload() {
+  krico_info "Reloading krico-sh-utils environment"
+  if ! source ~/.krico-sh-utils/initrc; then
+    echo "krico_reload: FAILED" >&2
+    return 1
+  fi
+  krico_info "krico-sh-utils environment reloaded"
+}

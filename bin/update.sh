@@ -18,9 +18,11 @@ git_pull "${KRICO_SH_UTILS}" || exit 1
 
 import "update/user_config" || exit 1
 import "update/get_code" || exit 1
+import "update/interactive_shell" || exit 1
 
 user_config_check || exit 1
 git_config_global || exit 1
 get_code || exit 1
+interactive_shell_check || exit 1
 
 exit 0
