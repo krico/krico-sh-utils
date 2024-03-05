@@ -33,7 +33,7 @@ if [[ -r "${KRICO_USER_CONFIG}/initrc" ]]; then
   source "${KRICO_USER_CONFIG}/initrc"
 fi
 
-# Define a function to reload the environment
+# Function to reload the environment
 function krico_reload() {
   krico_info "Reloading krico-sh-utils environment"
   if ! source ~/.krico-sh-utils/initrc; then
@@ -41,4 +41,9 @@ function krico_reload() {
     return 1
   fi
   krico_info "krico-sh-utils environment reloaded"
+}
+
+# Function to update the environment
+function krico_update() {
+  "${KRICO_SH_UTILS}/bin/update.sh"
 }
