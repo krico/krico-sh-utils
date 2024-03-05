@@ -1,4 +1,4 @@
-# krico-sh-utils: user_config
+# krico-sh-utils: user_config ([latest version](https://github.com/krico/krico-sh-utils/blob/main/user_config_template/README.md))
 
 User specific configurations for [krico-sh-utils](https://github.com/krico/krico-sh-utils).
 
@@ -32,6 +32,7 @@ Contains user modules that enrich your shell environment
 
 Configurations related to version control systems in general
 
-- [vcs/server_aliases](vcs/server_aliases) list of server aliases, format `<alias-name>,<server-name>`.  Example `Github,github.com`.
-will cause a repository `https://github.com/nodejs/node` to be checked out into `Github/nodejs/node`
+- [vcs/server_aliases](vcs/server_aliases) list of server aliases, format `<alias-name>,<server-name>`.
+  Example `Github,github.com`.
+  will cause a repository `https://github.com/nodejs/node` to be checked out into `Github/nodejs/node`
 - [vcs/repos](vcs/repos) contains the version controlled repositories that should be checked out in your repository

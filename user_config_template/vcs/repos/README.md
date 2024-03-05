@@ -1,4 +1,4 @@
-## krico-sh-utils: user_config/vcs/repos
+## krico-sh-utils: user_config/vcs/repos ([latest version](https://github.com/krico/krico-sh-utils/blob/main/user_config_template/vcs/repos/README.md))
 
 Version controlled repositories that should be present
 in your environment.

@@ -1,4 +1,4 @@
-## krico-sh-utils: user_config/lib
+## krico-sh-utils: user_config/lib ([latest version](https://github.com/krico/krico-sh-utils/blob/main/user_config_template/lib/README.md))
 
 You can create your own modules under this `user_config/lib/` directory
 
