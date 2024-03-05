@@ -1,4 +1,4 @@
-## krico-sh-utils: user_config/gitconfig ([latest version](https://github.com/krico/krico-sh-utils/tree/main/user_config_template/gitconfig))
+## krico-sh-utils: user_config/gitconfig ([latest version](https://github.com/krico/krico-sh-utils/tree/main/user_config_template/gitconfig/README.md))
 
 The krico-sh-utils *bootstrap/update* procedure applies git configurations
 based on files present in this directory.
