@@ -123,6 +123,8 @@ function get_code_repo() {
       krico_error "${FUNCNAME[0]}: git clone '${url}' failed: $!"
       return 1
     fi
+    krico_debug "${FUNCNAME[0]}: adding upstream '${upstream_url}' to '${dir}'"
     git -C "${dir}" remote add upstream "${upstream_url}"
   fi
+  git_config_repo "${dir}" || exit 1
 }
