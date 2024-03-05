@@ -1,11 +1,15 @@
 # +====================================================================================================
 # | krico-sh-utils: lib/import.bash
 # |
-# | Load so-called bash modules with functions and commands
+# | Load so-called bash modules with functions and commands.
+# |
+# | Modules are looked up under krico-sh-utils/lib and then user_config/lib
 # |
 # | Usage:
 # |   import "my_module" # Will load from lib/my_module.bash
 # |   import "/path/to/my_module.bash" # Will load from /path/to/my_module.bash
+# |
+# |   import_optional "maybe_module" || exit 1 # does not fail if module is not found
 # |
 # | Best practice (check the return code):
 # |   import "log" || exit 1
@@ -29,6 +33,10 @@ function import_impl() {
     source "${KRICO_LIB}/${module}.bash"
   elif [[ -r "${KRICO_LIB}/${module}" ]]; then
     source "${KRICO_LIB}/${module}"
+  elif [[ -n "${KRICO_USER_LIB}" && -r "${KRICO_USER_LIB}/${module}.bash" ]]; then
+    source "${KRICO_USER_LIB}/${module}.bash"
+  elif [[ -n "${KRICO_USER_LIB}" &&  -r "${KRICO_USER_LIB}/${module}" ]]; then
+    source "${KRICO_USER_LIB}/${module}"
   elif [[ -r "${module}" ]]; then
     source "${module}"
   else
